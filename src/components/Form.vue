@@ -1,6 +1,6 @@
 <template>
   <div id="form">
-    <div class="card form-card" :rules="rules" lable-position="top">
+    <div class="card form-card" lable-position="top">
       <form action="" class="field" ref="addItemForm" :model="formData">
         <label class="label">Subject</label>
         <div class="control">
@@ -32,10 +32,7 @@
           />
         </div>
 
-        <button
-          @click="onSubmit"
-          class="button btn-form is-success mt-5"
-        >
+        <button @click="onSubmit" class="button btn-form is-success mt-5">
           Submit
         </button>
       </form>
@@ -46,21 +43,31 @@
 <script>
 export default {
   name: "FormVue",
-  data: () => ({
-    formData: {
-      type: "INCOME",
-      comment: "",
-      value: 0,
-    },
-  }),
+  data() {
+    return {
+      formData: {
+        type: "INCOME",
+        comment: "",
+        value: 0,
+      },
+      formErrors: {},
+    };
+  },
   methods: {
-    onSubmit() {
-      this.$refs.addItemForm.validate((valid) => {
-        if (valid) {
-          this.$emit("submitForm", { ...this.formData });
-          this.$refs.addItemForm.resetFields();
-        }
-      });
+    onSubmit(e) {
+      e.preventDefault();
+      // Emit an event to the parent component with the form data
+      this.$emit("submitForm", { ...this.formData });
+      // Reset the form
+      this.resetForm();
+    },
+    resetForm() {
+      // Reset form data
+      this.formData = {
+        type: "INCOME",
+        comment: "",
+        value: 0,
+      };
     },
   },
 };

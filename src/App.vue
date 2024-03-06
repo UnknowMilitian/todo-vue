@@ -2,6 +2,7 @@
   <div id="app">
     <div class="container">
       <TotalBalance :total="totalBalance" />
+      <!-- Pass the submitForm event handler to the FormVue component -->
       <FormVue @submitForm="onFormSubmit" />
       <BudgetList :list="list" @deleteItem="onDeleteItem" />
     </div>
@@ -31,7 +32,7 @@ export default {
   computed: {
     totalBalance() {
       return Object.values(this.list).reduce((acc, item) => {
-        acc + item.value;
+        return acc + item.value;
       }, 0);
     },
   },
@@ -39,13 +40,22 @@ export default {
     onDeleteItem(id) {
       delete this.list[id];
     },
-    onFormSubmit(data) {
-      console.log(data);
+    // Event handler for form submission
+    onFormSubmit(formData) {
+      // Generate a new unique id for the task
+      const id = Object.keys(this.list).length + 1;
+      // Add the new task to the list
+      this.list[id] = {
+        type: formData.type,
+        comment: formData.comment,
+        value: formData.value,
+        id: id,
+      };
     },
   },
 };
 </script>
 
 <style>
-/* Component-specific styles can go here */
+/* Your styles */
 </style>
