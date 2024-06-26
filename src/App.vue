@@ -23,10 +23,7 @@ export default {
   },
   data() {
     return {
-      list: {
-        1: { type: "INCOME", value: 100, comment: "Some comment", id: 1 },
-        2: { type: "OUTCOME", value: -50, comment: "Outcome comment", id: 2 },
-      },
+      list: JSON.parse(localStorage.getItem("budgetItems")) || {},
     };
   },
   computed: {
@@ -37,20 +34,27 @@ export default {
     },
   },
   methods: {
+    saveToLocalStorage() {
+      localStorage.setItem("budgetItems", JSON.stringify(this.list));
+    },
     onDeleteItem(id) {
       delete this.list[id];
+      this.saveToLocalStorage();
     },
-    // Event handler for form submission
     onFormSubmit(formData) {
       // Generate a new unique id for the task
       const id = Object.keys(this.list).length + 1;
+      // Adjust the value based on the type (INCOME or OUTCOME)
+      const value =
+        formData.type === "OUTCOME" ? -formData.value : formData.value;
       // Add the new task to the list
       this.list[id] = {
         type: formData.type,
         comment: formData.comment,
-        value: formData.value,
+        value: value,
         id: id,
       };
+      this.saveToLocalStorage();
     },
   },
 };
