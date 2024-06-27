@@ -75,8 +75,9 @@ export default {
 
 <style scoped>
 #form {
-  width: 600px;
+  max-width: 600px;
   margin: 0 auto;
+  padding: 0 0.5rem;
 }
 
 #form form {

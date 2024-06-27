@@ -49,8 +49,9 @@ export default {
 
 <style scoped>
 .budget-list-wrap {
-  width: 600px;
+  max-width: 600px;
   margin: 2rem auto;
+  padding: 0 0.5rem;
 }
 
 .bg-budget {
